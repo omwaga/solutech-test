@@ -1,43 +1,3 @@
-<template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">First Name</label>
-                                        <input type="text" name="first_name" class="form-control form-control-sm" v-model="form.first_name" placeholder="First Name" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Email Address</label>
-                                        <input type="text" v-model="form.email" name="email" class="form-control form-control-sm" placeholder="Email Address" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Last Name</label>
-                                        <input type="text" name="last_name" class="form-control form-control-sm" placeholder="Last Name" required="" v-model="form.last_name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Phone Number</label>
-                                        <input type="text" name="phone_number" class="form-control form-control-sm" placeholder="Phone Number" required="" v-model="form.phone">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<script>
 class Errors {
     /**
      * Create a new Errors instance.
@@ -230,15 +190,3 @@ class Form {
       this.errors.record(errors);
   }
 }
-
-export default {
-    data: () => ({
-        form: new Form({
-            email: 'hhhh',
-            phone: '',
-            last_name: '',
-            first_name: '',
-        }),
-    })
-}
-</script>

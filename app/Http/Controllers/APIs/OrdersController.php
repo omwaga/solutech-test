@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\APIs;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Faker\Generator;
-use App\Models\Suppliers;
 
-class SuppliersController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class SuppliersController extends Controller
      */
     public function index()
     {
-      return response(Suppliers::all()->jsonSerialize(), Response::HTTP_OK);
+        //
     }
 
     /**
@@ -24,14 +22,9 @@ class SuppliersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Generator $faker)
+    public function create()
     {
-        $crud = new Suppliers();
-        $crud->name = $faker->lexify('????????');
-        $crud->color = $faker->boolean ? 'red' : 'green';
-        $crud->save();
-
-        return response($crud->jsonSerialize(), Response::HTTP_CREATED);
+        //
     }
 
     /**
@@ -76,11 +69,7 @@ class SuppliersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $crud = Suppliers::findOrFail($id);
-        $crud->color = $request->color;
-        $crud->save();
-
-        return response(null, Response::HTTP_OK);
+        //
     }
 
     /**
@@ -91,8 +80,6 @@ class SuppliersController extends Controller
      */
     public function destroy($id)
     {
-        Suppliers::destroy($id);
-
-        return response(null, Response::HTTP_OK);
+        //
     }
 }
