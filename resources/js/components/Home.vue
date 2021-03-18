@@ -3,97 +3,100 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Example Component</div>
+                    <div class="card-header">Suppliers <router-link class="float-right" :to="{name: 'suppliers.products'}">Suplier Products</router-link></div>
 
                     <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">First Name</label>
-                                        <input type="text" name="first_name" class="form-control form-control-sm" v-model="form.first_name" placeholder="First Name" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Email Address</label>
-                                        <input type="text" v-model="form.email" name="email" class="form-control form-control-sm" placeholder="Email Address" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Last Name</label>
-                                        <input type="text" name="last_name" class="form-control form-control-sm" placeholder="Last Name" required="" v-model="form.last_name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Phone Number</label>
-                                        <input type="text" name="phone_number" class="form-control form-control-sm" placeholder="Phone Number" required="" v-model="form.phone">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(supplier, index) in suppliers">
+                          <th scope="row">#</th>
+                          <td v-text="supplier.name">Mark</td>
+                          <td><button class="btn btn-danger btn-sm" @click="deleteSupplier(supplier.id)">Delete</button></td>
+                      </tr>
+                  </tbody>
+              </table>
+
+              <form method="POST" @submit.prevent="onSubmit" @keydown="form.errors.clear($event.target.name)">
+                <div class="form-group">
+                    <label for="name">Supplier Name:</label>
+                    <input type="text" name="name" class="form-control form-control-sm" v-model="form.name" placeholder="Name" required="">
+                    <span class="help text-danger" v-if="form.errors.has('name')" v-text="form.errors.get('name')"></span>
                 </div>
-            </div>
+                <button class="btn btn-primary" type="submit" :disabled="form.errors.any()">Add Supplier</button>
+            </form>
+
         </div>
     </div>
+</div>
+</div>
+</div>
 </template>
 
 <script>
+import axios from 'axios'
 class Errors {
     /**
-     * Create a new Errors instance.
-     */
-     constructor() {
-      this.errors = {};
-  }
+    * Create a new Errors instance.
+    */
+    constructor() {
+        this.errors = {};
+    }
 
 
-    /**
-     * Determine if an errors exists for the given field.
-     *
-     * @param {string} field
-     */
-     has(field) {
-      return this.errors.hasOwnProperty(field);
-  }
+/**
+* Determine if an errors exists for the given field.
+*
+* @param {string} field
+*/
+has(field) {
+    return this.errors.hasOwnProperty(field);
+}
 
 
-    /**
-     * Determine if we have any errors.
-     */
-     any() {
-      return Object.keys(this.errors).length > 0;
-  }
+/**
+* Determine if we have any errors.
+*/
+any() {
+    return Object.keys(this.errors).length > 0;
+}
 
 
-    /**
-     * Retrieve the error message for a field.
-     *
-     * @param {string} field
-     */
-     get(field) {
-      if (this.errors[field]) {
+/**
+* Retrieve the error message for a field.
+*
+* @param {string} field
+*/
+get(field) {
+    if (this.errors[field]) {
         return this.errors[field][0];
     }
 }
 
 
-    /**
-     * Record the new errors.
-     *
-     * @param {object} errors
-     */
-     record(errors) {
-      this.errors = errors;
-  }
+/**
+* Record the new errors.
+*
+* @param {object} errors
+*/
+record(errors) {
+    this.errors = errors;
+}
 
 
-    /**
-     * Clear one or all error fields.
-     *
-     * @param {string|null} field
-     */
-     clear(field) {
-      if (field) {
+/**
+* Clear one or all error fields.
+*
+* @param {string|null} field
+*/
+clear(field) {
+    if (field) {
         delete this.errors[field];
 
         return;
@@ -105,15 +108,15 @@ class Errors {
 
 
 class Form {
-    /**
-     * Create a new Form instance.
-     *
-     * @param {object} data
-     */
-     constructor(data) {
-      this.originalData = data;
+/**
+* Create a new Form instance.
+*
+* @param {object} data
+*/
+constructor(data) {
+    this.originalData = data;
 
-      for (let field in data) {
+    for (let field in data) {
         this[field] = data[field];
     }
 
@@ -121,13 +124,13 @@ class Form {
 }
 
 
-    /**
-     * Fetch all relevant data for the form.
-     */
-     data() {
-      let data = {};
+/**
+* Fetch all relevant data for the form.
+*/
+data() {
+    let data = {};
 
-      for (let property in this.originalData) {
+    for (let property in this.originalData) {
         data[property] = this[property];
     }
 
@@ -135,11 +138,11 @@ class Form {
 }
 
 
-    /**
-     * Reset the form fields.
-     */
-     reset() {
-      for (let field in this.originalData) {
+/**
+* Reset the form fields.
+*/
+reset() {
+    for (let field in this.originalData) {
         this[field] = '';
     }
 
@@ -147,98 +150,123 @@ class Form {
 }
 
 
-    /**
-     * Send a POST request to the given URL.
-     * .
-     * @param {string} url
-     */
-     post(url) {
-      return this.submit('post', url);
-  }
+/**
+* Send a POST request to the given URL.
+* .
+* @param {string} url
+*/
+post(url) {
+    return this.submit('post', url);
+}
 
 
-    /**
-     * Send a PUT request to the given URL.
-     * .
-     * @param {string} url
-     */
-     put(url) {
-      return this.submit('put', url);
-  }
+/**
+* Send a PUT request to the given URL.
+* .
+* @param {string} url
+*/
+put(url) {
+    return this.submit('put', url);
+}
 
 
-    /**
-     * Send a PATCH request to the given URL.
-     * .
-     * @param {string} url
-     */
-     patch(url) {
-      return this.submit('patch', url);
-  }
+/**
+* Send a PATCH request to the given URL.
+* .
+* @param {string} url
+*/
+patch(url) {
+    return this.submit('patch', url);
+}
 
 
-    /**
-     * Send a DELETE request to the given URL.
-     * .
-     * @param {string} url
-     */
-     delete(url) {
-      return this.submit('delete', url);
-  }
+/**
+* Send a DELETE request to the given URL.
+* .
+* @param {string} url
+*/
+delete(url) {
+    return this.submit('delete', url);
+}
 
 
-    /**
-     * Submit the form.
-     *
-     * @param {string} requestType
-     * @param {string} url
-     */
-     submit(requestType, url) {
-      return new Promise((resolve, reject) => {
+/**
+* Submit the form.
+*
+* @param {string} requestType
+* @param {string} url
+*/
+submit(requestType, url) {
+    return new Promise((resolve, reject) => {
         axios[requestType](url, this.data())
         .then(response => {
-          this.onSuccess(response.data);
+            this.onSuccess(response.data);
 
-          resolve(response.data);
-      })
+            resolve(response.data);
+        })
         .catch(error => {
-          this.onFail(error.response.data.errors);
+            this.onFail(error.response.data.errors);
 
-          reject(error.response.data);
-      });
+            reject(error.response.data);
+        });
     });
-  }
+}
 
-    /**
-     * Handle a successful form submission.
-     *
-     * @param {object} data
-     */
-     onSuccess(data) {
-        alert(data.message); // temporary
+/**
+* Handle a successful form submission.
+*
+* @param {object} data
+*/
+onSuccess(data) {
+alert(data.message); // temporary
 
-        this.reset();
-    }
+this.reset();
+}
 
 
-    /**
-     * Handle a failed form submission.
-     *
-     * @param {object} errors
-     */
-     onFail(errors) {
-      this.errors.record(errors);
-  }
+/**
+* Handle a failed form submission.
+*
+* @param {object} errors
+*/
+onFail(errors) {
+    this.errors.record(errors);
+}
 }
 
 export default {
     data: () => ({
         form: new Form({
-            email: 'hhhh',
-            phone: '',
-            last_name: '',
-            first_name: '',
+            name: '',
         }),
-    })
+
+        suppliers:[],
+    }),
+
+    mounted(){
+        this.loadSuppliers();
+    },
+
+    methods: {
+        onSubmit() {
+            this.form.post('/api/suppliers')
+            .then(response => alert('Added Successfuly'));
+            this.loadSuppliers();
+        },
+
+        // Read Suppliers
+        loadSuppliers() {
+            axios.get('/api/suppliers')
+            .then(response => this.suppliers = response.data);
+        },
+
+        // Delete Suppliers
+        deleteSupplier(id){
+            axios.delete('/api/suppliers/' + id)
+            .then(response => alert('Deleted Successfuly'));
+
+            this.loadSuppliers();
+        },
+    }
 }
 </script>

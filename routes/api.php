@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('/suppliers', 'App\Http\Controllers\APIs\SuppliersController');
+Route::resource('/supplier-products', 'App\Http\Controllers\APIs\SupplierProductsController');
 Route::resource('/orders', 'App\Http\Controllers\APIs\OrdersController');

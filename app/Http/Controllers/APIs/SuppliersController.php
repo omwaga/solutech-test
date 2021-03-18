@@ -25,13 +25,8 @@ class SuppliersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Generator $faker)
+    public function create()
     {
-        $supplier = new Suppliers();
-        $supplier->name = $faker->lexify('????????');
-        $supplier->save();
-
-        return response($supplier->jsonSerialize(), Response::HTTP_CREATED);
     }
 
     /**
@@ -42,7 +37,13 @@ class SuppliersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes =  request()->validate([
+            'name' => ['required', 'min:3']
+        ]);
+
+        $supplier = Suppliers::create($attributes);
+
+        return response($supplier->jsonSerialize(), Response::HTTP_CREATED);
     }
 
     /**

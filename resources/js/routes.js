@@ -1,5 +1,6 @@
 import Home from './components/Home';
 import NotFound from './components/NotFound';
+import SupplierProducts from './components/SupplierProducts';
 export default {
     mode: 'history',
 
@@ -12,7 +13,14 @@ export default {
 
         {
             path: '/',
-            component: Home
+            component: Home,
+            name: 'suppliers'
+        },
+
+        {
+            path: '/supplier-products',
+            component: SupplierProducts,
+            name: 'suppliers.products'
         },
     ]
 };

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\APIs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Models\SupplierProducts;
 
 class SupplierProductsController extends Controller
 {
@@ -14,7 +16,7 @@ class SupplierProductsController extends Controller
      */
     public function index()
     {
-        //
+      return response(SupplierProducts::all()->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
