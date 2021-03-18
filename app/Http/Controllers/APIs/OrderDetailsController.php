@@ -4,6 +4,8 @@ namespace App\Http\Controllers\APIs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Models\OrderDetails;
 
 class OrderDetailsController extends Controller
 {
@@ -14,7 +16,7 @@ class OrderDetailsController extends Controller
      */
     public function index()
     {
-        //
+      return response(OrderDetails::all()->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
@@ -35,7 +37,14 @@ class OrderDetailsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes =  request()->validate([
+            'order_id' => 'required',
+            'product_id' => 'required',
+        ]);
+
+        $order_detail = OrderDetails::create($attributes);
+
+        return response($order_detail->jsonSerialize(), Response::HTTP_CREATED);
     }
 
     /**
@@ -69,7 +78,10 @@ class OrderDetailsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order_detail = OrderDetails::findOrFail($id);
+        $order_detail->update(request(['order_id', 'product_id']));
+
+        return response(null, Response::HTTP_OK);
     }
 
     /**
@@ -80,6 +92,8 @@ class OrderDetailsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        OrderDetails::destroy($id);
+
+        return response(null, Response::HTTP_OK);
     }
 }

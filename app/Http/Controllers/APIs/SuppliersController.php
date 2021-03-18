@@ -5,7 +5,6 @@ namespace App\Http\Controllers\APIs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Faker\Generator;
 use App\Models\Suppliers;
 
 class SuppliersController extends Controller
@@ -78,8 +77,7 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $supplier = Suppliers::findOrFail($id);
-        $supplier->name = $request->name;
-        $supplier->save();
+        $supplier->update(request(['name']));
 
         return response(null, Response::HTTP_OK);
     }

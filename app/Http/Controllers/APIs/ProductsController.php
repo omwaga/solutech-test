@@ -4,6 +4,8 @@ namespace App\Http\Controllers\APIs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Products;
+use Illuminate\Http\Response;
 
 class ProductsController extends Controller
 {
@@ -14,7 +16,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+      return response(Products::all()->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
@@ -35,7 +37,15 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes =  request()->validate([
+            'name' => ['required', 'min:3'],
+            'description' => ['required', 'min:3'],
+            'quantity' => 'required',
+        ]);
+
+        $product = Products::create($attributes);
+
+        return response($product->jsonSerialize(), Response::HTTP_CREATED);
     }
 
     /**
@@ -69,7 +79,10 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Products::findOrFail($id);
+        $product->update(request(['name', 'description', 'quantity']));
+
+        return response(null, Response::HTTP_OK);
     }
 
     /**
@@ -80,6 +93,8 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Products::destroy($id);
+
+        return response(null, Response::HTTP_OK);
     }
 }

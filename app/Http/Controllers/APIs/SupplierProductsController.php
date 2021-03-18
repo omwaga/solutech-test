@@ -37,7 +37,14 @@ class SupplierProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes =  request()->validate([
+            'supply_id' => 'required',
+            'product_id' => 'required',
+        ]);
+
+        $supplier_product = SupplierProducts::create($attributes);
+
+        return response($supplier_product->jsonSerialize(), Response::HTTP_CREATED);
     }
 
     /**
@@ -71,7 +78,10 @@ class SupplierProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $supplier_product = SupplierProducts::findOrFail($id);
+        $supplier_product->update(request(['supply_id', 'product_id']));
+
+        return response(null, Response::HTTP_OK);
     }
 
     /**
@@ -82,6 +92,8 @@ class SupplierProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SupplierProducts::destroy($id);
+
+        return response(null, Response::HTTP_OK);
     }
 }
