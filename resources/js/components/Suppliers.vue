@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Suppliers <router-link class="float-right" :to="{name: 'suppliers.products'}">Suplier Products</router-link></div>
+                    <div class="card-header">Suppliers </div>
 
                     <div class="card-body">
                         <table class="table">
@@ -17,8 +17,11 @@
                       <tbody>
                         <tr v-for="(supplier, index) in suppliers">
                           <th scope="row">#</th>
-                          <td v-text="supplier.name">Mark</td>
-                          <td><button class="btn btn-danger btn-sm" @click="deleteSupplier(supplier.id)">Delete</button></td>
+                          <td v-text="supplier.name"></td>
+                          <td>
+                            <button class="btn btn-primary btn-sm" @click="">Update</button>
+                            <button class="btn btn-danger btn-sm" @click="deleteSupplier(supplier.id)">Delete</button>
+                        </td>
                       </tr>
                   </tbody>
               </table>
@@ -41,6 +44,7 @@
 
 <script>
 import axios from 'axios'
+
 class Errors {
     /**
     * Create a new Errors instance.

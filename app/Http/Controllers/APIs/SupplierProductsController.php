@@ -16,7 +16,7 @@ class SupplierProductsController extends Controller
      */
     public function index()
     {
-      return response(SupplierProducts::all()->jsonSerialize(), Response::HTTP_OK);
+      return response(SupplierProducts::with(['supplier', 'product'])->get()->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**

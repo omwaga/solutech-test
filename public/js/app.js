@@ -1853,6 +1853,30 @@ module.exports = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -1902,6 +1926,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 //
 //
 //
@@ -1918,9 +1950,314 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var Errors = /*#__PURE__*/function () {
+  /**
+  * Create a new Errors instance.
+  */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+  /**
+  * Determine if any errors exists for the given  input field.
+  *
+  * @param {string} field
+  */
+
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+    /**
+    * Determine if we have any form errors.
+    */
+
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+    /**
+    * Retrieve the error message for a particular input field.
+    *
+    * @param {string} field
+    */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+    /**
+    * Record the new errors.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+    /**
+    * Clear one or all error fields.
+    *
+    * @param {string|null} field
+    */
+
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+var Form = /*#__PURE__*/function () {
+  /**
+  * Create a new Form instance.
+  *
+  * @param {object} data
+  */
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originalData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new Errors();
+  }
+  /**
+  * Fetch all relevant data for the form.
+  */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var property in this.originalData) {
+        data[property] = this[property];
+      }
+
+      return data;
+    }
+    /**
+    * Reset the form fields.
+    */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originalData) {
+        this[field] = '';
+      }
+
+      this.errors.clear();
+    }
+    /**
+    * Send a POST request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+    /**
+    * Send a PUT request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+    /**
+    * Send a PATCH request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "patch",
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+    /**
+    * Send a DELETE request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "delete",
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+    /**
+    * Submit the form.
+    *
+    * @param {string} requestType
+    * @param {string} url
+    */
+
+  }, {
+    key: "submit",
+    value: function submit(requestType, url) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data.errors);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+    * Handle a successful form submission.
+    *
+    * @param {object} data
+    */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      alert(data.message); // temporary
+
+      this.reset();
+    }
+    /**
+    * Handle a failed form submission.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.record(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      form: new Form({
+        order_id: '',
+        product_id: ''
+      }),
+      details: [],
+      orders: [],
+      products: []
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var _this2 = this;
+
+    this.loadDetails();
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/all-orders').then(function (response) {
+      return _this2.orders = response.data;
+    });
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/products').then(function (response) {
+      return _this2.products = response.data;
+    });
+  },
+  methods: {
+    // Add an Order Detail
+    onSubmit: function onSubmit() {
+      this.form.post('/api/order-details').then(function (response) {
+        return alert('Added Successfuly');
+      });
+      this.loadDetails();
+    },
+    // Read Order Details
+    loadDetails: function loadDetails() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/order-details').then(function (response) {
+        return _this3.details = response.data;
+      });
+    },
+    // Delete Order Detail
+    deleteDetail: function deleteDetail(id) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/order-details/' + id).then(function (response) {
+        return alert('Deleted Successfuly');
+      });
+      this.loadDetails();
+    }
   }
 });
 
@@ -1937,6 +2274,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 //
 //
 //
@@ -1953,9 +2298,287 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var Errors = /*#__PURE__*/function () {
+  /**
+  * Create a new Errors instance.
+  */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+  /**
+  * Determine if any errors exists for the given  input field.
+  *
+  * @param {string} field
+  */
+
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+    /**
+    * Determine if we have any form errors.
+    */
+
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+    /**
+    * Retrieve the error message for a particular input field.
+    *
+    * @param {string} field
+    */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+    /**
+    * Record the new errors.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+    /**
+    * Clear one or all error fields.
+    *
+    * @param {string|null} field
+    */
+
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+var Form = /*#__PURE__*/function () {
+  /**
+  * Create a new Form instance.
+  *
+  * @param {object} data
+  */
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originalData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new Errors();
+  }
+  /**
+  * Fetch all relevant data for the form.
+  */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var property in this.originalData) {
+        data[property] = this[property];
+      }
+
+      return data;
+    }
+    /**
+    * Reset the form fields.
+    */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originalData) {
+        this[field] = '';
+      }
+
+      this.errors.clear();
+    }
+    /**
+    * Send a POST request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+    /**
+    * Send a PUT request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+    /**
+    * Send a PATCH request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "patch",
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+    /**
+    * Send a DELETE request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "delete",
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+    /**
+    * Submit the form.
+    *
+    * @param {string} requestType
+    * @param {string} url
+    */
+
+  }, {
+    key: "submit",
+    value: function submit(requestType, url) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data.errors);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+    * Handle a successful form submission.
+    *
+    * @param {object} data
+    */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      alert(data.message); // temporary
+
+      this.reset();
+    }
+    /**
+    * Handle a failed form submission.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.record(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      form: new Form({
+        order_number: ''
+      }),
+      orders: []
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.loadOrders();
+  },
+  methods: {
+    // Add a supplier
+    onSubmit: function onSubmit() {
+      this.form.post('/api/all-orders').then(function (response) {
+        return alert('Added Successfuly');
+      });
+      this.loadOrders();
+    },
+    // Read Orders
+    loadOrders: function loadOrders() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/all-orders').then(function (response) {
+        return _this2.orders = response.data;
+      });
+    },
+    // Delete Orders
+    deleteOrder: function deleteOrder(id) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/all-orders/' + id).then(function (response) {
+        return alert('Deleted Successfuly');
+      });
+      this.loadOrders();
+    }
   }
 });
 
@@ -1972,6 +2595,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 //
 //
 //
@@ -1988,9 +2619,304 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var Errors = /*#__PURE__*/function () {
+  /**
+  * Create a new Errors instance.
+  */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+  /**
+  * Determine if any errors exists for the given  input field.
+  *
+  * @param {string} field
+  */
+
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+    /**
+    * Determine if we have any form errors.
+    */
+
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+    /**
+    * Retrieve the error message for a particular input field.
+    *
+    * @param {string} field
+    */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+    /**
+    * Record the new errors.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+    /**
+    * Clear one or all error fields.
+    *
+    * @param {string|null} field
+    */
+
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+var Form = /*#__PURE__*/function () {
+  /**
+  * Create a new Form instance.
+  *
+  * @param {object} data
+  */
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originalData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new Errors();
+  }
+  /**
+  * Fetch all relevant data for the form.
+  */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var property in this.originalData) {
+        data[property] = this[property];
+      }
+
+      return data;
+    }
+    /**
+    * Reset the form fields.
+    */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originalData) {
+        this[field] = '';
+      }
+
+      this.errors.clear();
+    }
+    /**
+    * Send a POST request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+    /**
+    * Send a PUT request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+    /**
+    * Send a PATCH request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "patch",
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+    /**
+    * Send a DELETE request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "delete",
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+    /**
+    * Submit the form.
+    *
+    * @param {string} requestType
+    * @param {string} url
+    */
+
+  }, {
+    key: "submit",
+    value: function submit(requestType, url) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data.errors);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+    * Handle a successful form submission.
+    *
+    * @param {object} data
+    */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      alert(data.message); // temporary
+
+      this.reset();
+    }
+    /**
+    * Handle a failed form submission.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.record(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      form: new Form({
+        name: '',
+        description: '',
+        quantity: ''
+      }),
+      all_products: []
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.loadProducts();
+  },
+  methods: {
+    // Add a Product
+    onSubmit: function onSubmit() {
+      this.form.post('/api/products').then(function (response) {
+        return alert('Added Successfuly');
+      });
+      this.loadProducts();
+    },
+    // Read Products
+    loadProducts: function loadProducts() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/products').then(function (response) {
+        return _this2.all_products = response.data;
+      });
+    },
+    // Delete Products
+    deleteProduct: function deleteProduct(id) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/products/' + id).then(function (response) {
+        return alert('Deleted Successfuly');
+      });
+      this.loadProducts();
+    }
   }
 });
 
@@ -2009,6 +2935,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2041,14 +3000,247 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+var Errors = /*#__PURE__*/function () {
+  /**
+  * Create a new Errors instance.
+  */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+  /**
+  * Determine if any errors exists for the given  input field.
+  *
+  * @param {string} field
+  */
+
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+    /**
+    * Determine if we have any form errors.
+    */
+
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+    /**
+    * Retrieve the error message for a particular input field.
+    *
+    * @param {string} field
+    */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+    /**
+    * Record the new errors.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+    /**
+    * Clear one or all error fields.
+    *
+    * @param {string|null} field
+    */
+
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+var Form = /*#__PURE__*/function () {
+  /**
+  * Create a new Form instance.
+  *
+  * @param {object} data
+  */
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originalData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new Errors();
+  }
+  /**
+  * Fetch all relevant data for the form.
+  */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var property in this.originalData) {
+        data[property] = this[property];
+      }
+
+      return data;
+    }
+    /**
+    * Reset the form fields.
+    */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originalData) {
+        this[field] = '';
+      }
+
+      this.errors.clear();
+    }
+    /**
+    * Send a POST request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+    /**
+    * Send a PUT request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+    /**
+    * Send a PATCH request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "patch",
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+    /**
+    * Send a DELETE request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "delete",
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+    /**
+    * Submit the form.
+    *
+    * @param {string} requestType
+    * @param {string} url
+    */
+
+  }, {
+    key: "submit",
+    value: function submit(requestType, url) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data.errors);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+    * Handle a successful form submission.
+    *
+    * @param {object} data
+    */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      alert(data.message); // temporary
+
+      this.reset();
+    }
+    /**
+    * Handle a failed form submission.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.record(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      supplier_products: []
+      form: new Form({
+        'supply_id': '',
+        'product_id': ''
+      }),
+      supplier_products: [],
+      suppliers: [],
+      products: []
     };
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.loadSupplierProducts();
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/suppliers').then(function (response) {
+      return _this2.suppliers = response.data;
+    });
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/products').then(function (response) {
+      return _this2.products = response.data;
+    });
   },
   methods: {
     onSubmit: function onSubmit() {
@@ -2059,10 +3251,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Read Suppliers
     loadSupplierProducts: function loadSupplierProducts() {
-      var _this = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/supplier-products').then(function (response) {
-        return _this.supplier_products = response.data;
+        return _this3.supplier_products = response.data;
       });
     },
     // Delete Suppliers
@@ -2070,7 +3262,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/supplier-products/' + id).then(function (response) {
         return alert('Deleted Successfuly');
       });
-      this.loadSuppliers();
+      this.loadSupplierProducts();
     }
   }
 });
@@ -2096,6 +3288,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+//
+//
+//
 //
 //
 //
@@ -3218,31 +4413,79 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "col-md-10" }, [
         _c("div", { staticClass: "card" }, [
-          _c(
-            "div",
-            { staticClass: "card-header" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "float-right",
-                  attrs: { to: { name: "suppliers.products" } }
-                },
-                [_vm._v("Suplier Products")]
-              ),
-              _c(
-                "router-link",
-                {
-                  staticClass: "float-right",
-                  attrs: { to: { name: "orders" } }
-                },
-                [_vm._v("Orders")]
-              )
-            ],
-            1
-          )
+          _c("div", { staticClass: "card-header" }, [_vm._v("CRUD API")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-3\t shadow-sm p-3 m-3" }, [
+                _c(
+                  "h5",
+                  [
+                    _c(
+                      "router-link",
+                      { attrs: { to: { name: "suppliers" } } },
+                      [_vm._v("Suppliers")]
+                    )
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3 shadow-sm p-3 m-3" }, [
+                _c(
+                  "h5",
+                  [
+                    _c("router-link", { attrs: { to: { name: "orders" } } }, [
+                      _vm._v("Orders")
+                    ])
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3 shadow-sm p-3 m-3" }, [
+                _c(
+                  "h5",
+                  [
+                    _c("router-link", { attrs: { to: { name: "products" } } }, [
+                      _vm._v("Products")
+                    ])
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3 shadow-sm p-3 m-3" }, [
+                _c(
+                  "h5",
+                  [
+                    _c(
+                      "router-link",
+                      { attrs: { to: { name: "suppliers.products" } } },
+                      [_vm._v("Suplier Products")]
+                    )
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3 shadow-sm p-3 m-3" }, [
+                _c(
+                  "h5",
+                  [
+                    _c(
+                      "router-link",
+                      { attrs: { to: { name: "order.details" } } },
+                      [_vm._v("Order Details")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ])
+          ])
         ])
       ])
     ])
@@ -3319,28 +4562,223 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Order Details")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.details, function(detail, index) {
+                  return _c("tr", [
+                    _c("th", { attrs: { scope: "row" } }, [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: {
+                        textContent: _vm._s(detail.order.order_number)
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(detail.product.name) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteDetail(detail.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { method: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.onSubmit($event)
+                  },
+                  keydown: function($event) {
+                    return _vm.form.errors.clear($event.target.name)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "order_id" } }, [
+                    _vm._v("Order:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.order_id,
+                          expression: "form.order_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "order_id" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "order_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Select Order Number")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.orders, function(order) {
+                        return _c("option", { domProps: { value: order.id } }, [
+                          _vm._v(_vm._s(order.order_number))
+                        ])
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.form.errors.has("order_id")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("order_id"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "product_id" } }, [
+                    _vm._v("Select Product:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.product_id,
+                          expression: "form.product_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "product_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Select Product")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.products, function(product) {
+                        return _c(
+                          "option",
+                          { domProps: { value: product.id } },
+                          [_vm._v(_vm._s(product.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.form.errors.has("product_id")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("product_id"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "submit", disabled: _vm.form.errors.any() }
+                  },
+                  [_vm._v("Add Order Detail")]
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Order")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Product")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
     ])
   }
@@ -3367,28 +4805,133 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Orders")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.orders, function(order, index) {
+                  return _c("tr", [
+                    _c("th", { attrs: { scope: "row" } }, [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(order.order_number) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteOrder(order.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { method: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.onSubmit($event)
+                  },
+                  keydown: function($event) {
+                    return _vm.form.errors.clear($event.target.name)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "name" } }, [
+                    _vm._v("Order Number:")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.order_number,
+                        expression: "form.order_number"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: {
+                      type: "text",
+                      name: "order_number",
+                      placeholder: "Order Number",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.order_number },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "order_number", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.form.errors.has("order_number")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(
+                            _vm.form.errors.get("order_number")
+                          )
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "submit", disabled: _vm.form.errors.any() }
+                  },
+                  [_vm._v("Add Supplier")]
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
     ])
   }
@@ -3415,28 +4958,223 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Products")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.all_products, function(product, index) {
+                  return _c("tr", [
+                    _c("th", { attrs: { scope: "row" } }, [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(product.name) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(product.quantity) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteProduct(product.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { method: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.onSubmit($event)
+                  },
+                  keydown: function($event) {
+                    return _vm.form.errors.clear($event.target.name)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "name" } }, [
+                    _vm._v("Product Name:")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.name,
+                        expression: "form.name"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: {
+                      type: "text",
+                      name: "name",
+                      placeholder: "Name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.form.errors.has("name")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("name"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "description" } }, [
+                    _vm._v("Product Description:")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.description,
+                        expression: "form.description"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: {
+                      type: "text",
+                      name: "description",
+                      placeholder: "Description",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "description", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.form.errors.has("description")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(
+                            _vm.form.errors.get("description")
+                          )
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "quantity" } }, [
+                    _vm._v("Product Quantity:")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.quantity,
+                        expression: "form.quantity"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    attrs: {
+                      type: "text",
+                      name: "quantity",
+                      placeholder: "Quantity",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.quantity },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "quantity", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.form.errors.has("quantity")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("quantity"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "submit", disabled: _vm.form.errors.any() }
+                  },
+                  [_vm._v("Add Product")]
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Quantity")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
     ])
   }
@@ -3497,13 +5235,17 @@ var render = function() {
                   return _c("tr", [
                     _c("th", { attrs: { scope: "row" } }, [_vm._v("#")]),
                     _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        domProps: { textContent: _vm._s(supplier_product.id) }
-                      },
-                      [_vm._v("Mark")]
-                    ),
+                    _c("td", {
+                      domProps: {
+                        textContent: _vm._s(supplier_product.supplier.name)
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: {
+                        textContent: _vm._s(supplier_product.product.name)
+                      }
+                    }),
                     _vm._v(" "),
                     _c("td", [
                       _c(
@@ -3525,7 +5267,161 @@ var render = function() {
                 }),
                 0
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { method: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.onSubmit($event)
+                  },
+                  keydown: function($event) {
+                    return _vm.form.errors.clear($event.target.name)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "supply_id" } }, [
+                    _vm._v("Supplier:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.supply_id,
+                          expression: "form.supply_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "supply_id" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "supply_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Select Supplier")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.suppliers, function(supplier) {
+                        return _c(
+                          "option",
+                          { domProps: { value: supplier.id } },
+                          [_vm._v(_vm._s(supplier.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.form.errors.has("supply_id")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("supply_id"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "product_id" } }, [
+                    _vm._v("Select Product:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.product_id,
+                          expression: "form.product_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "product_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Select Product")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.products, function(product) {
+                        return _c(
+                          "option",
+                          { domProps: { value: product.id } },
+                          [_vm._v(_vm._s(product.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.form.errors.has("product_id")
+                    ? _c("span", {
+                        staticClass: "help text-danger",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("product_id"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "submit", disabled: _vm.form.errors.any() }
+                  },
+                  [_vm._v("Add Supplier Product")]
+                )
+              ]
+            )
           ])
         ])
       ])
@@ -3541,7 +5437,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Supplier")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Product")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
@@ -3574,22 +5472,7 @@ var render = function() {
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card" }, [
-          _c(
-            "div",
-            { staticClass: "card-header" },
-            [
-              _vm._v("Suppliers "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "float-right",
-                  attrs: { to: { name: "suppliers.products" } }
-                },
-                [_vm._v("Suplier Products")]
-              )
-            ],
-            1
-          ),
+          _c("div", { staticClass: "card-header" }, [_vm._v("Suppliers ")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("table", { staticClass: "table" }, [
@@ -3601,13 +5484,20 @@ var render = function() {
                   return _c("tr", [
                     _c("th", { attrs: { scope: "row" } }, [_vm._v("#")]),
                     _vm._v(" "),
-                    _c(
-                      "td",
-                      { domProps: { textContent: _vm._s(supplier.name) } },
-                      [_vm._v("Mark")]
-                    ),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(supplier.name) }
+                    }),
                     _vm._v(" "),
                     _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-sm",
+                          on: { click: function($event) {} }
+                        },
+                        [_vm._v("Update")]
+                      ),
+                      _vm._v(" "),
                       _c(
                         "button",
                         {

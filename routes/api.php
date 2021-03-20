@@ -20,4 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('/suppliers', 'App\Http\Controllers\APIs\SuppliersController');
 Route::resource('/supplier-products', 'App\Http\Controllers\APIs\SupplierProductsController');
-Route::resource('/orders', 'App\Http\Controllers\APIs\OrdersController');
+Route::resource('/all-orders', 'App\Http\Controllers\APIs\OrdersController');
+Route::resource('/products', 'App\Http\Controllers\APIs\ProductsController');
+Route::resource('/order-details', 'App\Http\Controllers\APIs\OrderDetailsController');

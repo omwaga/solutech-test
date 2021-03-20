@@ -16,7 +16,7 @@ class OrderDetailsController extends Controller
      */
     public function index()
     {
-      return response(OrderDetails::all()->jsonSerialize(), Response::HTTP_OK);
+      return response(OrderDetails::with(['order', 'product'])->get()->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
