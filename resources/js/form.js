@@ -1,4 +1,4 @@
-
+import axios from 'axios';
 
 class Errors {
     /**
@@ -66,7 +66,7 @@ clear(field) {
 }
 
 
-class Form {
+export default class Form {
 /**
 * Create a new Form instance.
 *

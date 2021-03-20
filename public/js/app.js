@@ -1928,12 +1928,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form */ "./resources/js/form.js");
 //
 //
 //
@@ -1993,229 +1988,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var Errors = /*#__PURE__*/function () {
-  /**
-  * Create a new Errors instance.
-  */
-  function Errors() {
-    _classCallCheck(this, Errors);
-
-    this.errors = {};
-  }
-  /**
-  * Determine if any errors exists for the given  input field.
-  *
-  * @param {string} field
-  */
-
-
-  _createClass(Errors, [{
-    key: "has",
-    value: function has(field) {
-      return this.errors.hasOwnProperty(field);
-    }
-    /**
-    * Determine if we have any form errors.
-    */
-
-  }, {
-    key: "any",
-    value: function any() {
-      return Object.keys(this.errors).length > 0;
-    }
-    /**
-    * Retrieve the error message for a particular input field.
-    *
-    * @param {string} field
-    */
-
-  }, {
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
-    }
-    /**
-    * Record the new errors.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "record",
-    value: function record(errors) {
-      this.errors = errors;
-    }
-    /**
-    * Clear one or all error fields.
-    *
-    * @param {string|null} field
-    */
-
-  }, {
-    key: "clear",
-    value: function clear(field) {
-      if (field) {
-        delete this.errors[field];
-        return;
-      }
-
-      this.errors = {};
-    }
-  }]);
-
-  return Errors;
-}();
-
-var Form = /*#__PURE__*/function () {
-  /**
-  * Create a new Form instance.
-  *
-  * @param {object} data
-  */
-  function Form(data) {
-    _classCallCheck(this, Form);
-
-    this.originalData = data;
-
-    for (var field in data) {
-      this[field] = data[field];
-    }
-
-    this.errors = new Errors();
-  }
-  /**
-  * Fetch all relevant data for the form.
-  */
-
-
-  _createClass(Form, [{
-    key: "data",
-    value: function data() {
-      var data = {};
-
-      for (var property in this.originalData) {
-        data[property] = this[property];
-      }
-
-      return data;
-    }
-    /**
-    * Reset the form fields.
-    */
-
-  }, {
-    key: "reset",
-    value: function reset() {
-      for (var field in this.originalData) {
-        this[field] = '';
-      }
-
-      this.errors.clear();
-    }
-    /**
-    * Send a POST request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "post",
-    value: function post(url) {
-      return this.submit('post', url);
-    }
-    /**
-    * Send a PUT request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "put",
-    value: function put(url) {
-      return this.submit('put', url);
-    }
-    /**
-    * Send a PATCH request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "patch",
-    value: function patch(url) {
-      return this.submit('patch', url);
-    }
-    /**
-    * Send a DELETE request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "delete",
-    value: function _delete(url) {
-      return this.submit('delete', url);
-    }
-    /**
-    * Submit the form.
-    *
-    * @param {string} requestType
-    * @param {string} url
-    */
-
-  }, {
-    key: "submit",
-    value: function submit(requestType, url) {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
-          _this.onSuccess(response.data);
-
-          resolve(response.data);
-        })["catch"](function (error) {
-          _this.onFail(error.response.data.errors);
-
-          reject(error.response.data);
-        });
-      });
-    }
-    /**
-    * Handle a successful form submission.
-    *
-    * @param {object} data
-    */
-
-  }, {
-    key: "onSuccess",
-    value: function onSuccess(data) {
-      alert(data.message); // temporary
-
-      this.reset();
-    }
-    /**
-    * Handle a failed form submission.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "onFail",
-    value: function onFail(errors) {
-      this.errors.record(errors);
-    }
-  }]);
-
-  return Form;
-}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      form: new Form({
+      form: new _form__WEBPACK_IMPORTED_MODULE_1__.default({
         order_id: '',
         product_id: ''
       }),
@@ -2225,14 +2002,14 @@ var Form = /*#__PURE__*/function () {
     };
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this = this;
 
     this.loadDetails();
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/all-orders').then(function (response) {
-      return _this2.orders = response.data;
+      return _this.orders = response.data;
     });
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/products').then(function (response) {
-      return _this2.products = response.data;
+      return _this.products = response.data;
     });
   },
   methods: {
@@ -2245,10 +2022,10 @@ var Form = /*#__PURE__*/function () {
     },
     // Read Order Details
     loadDetails: function loadDetails() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/order-details').then(function (response) {
-        return _this3.details = response.data;
+        return _this2.details = response.data;
       });
     },
     // Delete Order Detail
@@ -2276,12 +2053,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form */ "./resources/js/form.js");
 //
 //
 //
@@ -2325,229 +2097,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var Errors = /*#__PURE__*/function () {
-  /**
-  * Create a new Errors instance.
-  */
-  function Errors() {
-    _classCallCheck(this, Errors);
-
-    this.errors = {};
-  }
-  /**
-  * Determine if any errors exists for the given  input field.
-  *
-  * @param {string} field
-  */
-
-
-  _createClass(Errors, [{
-    key: "has",
-    value: function has(field) {
-      return this.errors.hasOwnProperty(field);
-    }
-    /**
-    * Determine if we have any form errors.
-    */
-
-  }, {
-    key: "any",
-    value: function any() {
-      return Object.keys(this.errors).length > 0;
-    }
-    /**
-    * Retrieve the error message for a particular input field.
-    *
-    * @param {string} field
-    */
-
-  }, {
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
-    }
-    /**
-    * Record the new errors.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "record",
-    value: function record(errors) {
-      this.errors = errors;
-    }
-    /**
-    * Clear one or all error fields.
-    *
-    * @param {string|null} field
-    */
-
-  }, {
-    key: "clear",
-    value: function clear(field) {
-      if (field) {
-        delete this.errors[field];
-        return;
-      }
-
-      this.errors = {};
-    }
-  }]);
-
-  return Errors;
-}();
-
-var Form = /*#__PURE__*/function () {
-  /**
-  * Create a new Form instance.
-  *
-  * @param {object} data
-  */
-  function Form(data) {
-    _classCallCheck(this, Form);
-
-    this.originalData = data;
-
-    for (var field in data) {
-      this[field] = data[field];
-    }
-
-    this.errors = new Errors();
-  }
-  /**
-  * Fetch all relevant data for the form.
-  */
-
-
-  _createClass(Form, [{
-    key: "data",
-    value: function data() {
-      var data = {};
-
-      for (var property in this.originalData) {
-        data[property] = this[property];
-      }
-
-      return data;
-    }
-    /**
-    * Reset the form fields.
-    */
-
-  }, {
-    key: "reset",
-    value: function reset() {
-      for (var field in this.originalData) {
-        this[field] = '';
-      }
-
-      this.errors.clear();
-    }
-    /**
-    * Send a POST request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "post",
-    value: function post(url) {
-      return this.submit('post', url);
-    }
-    /**
-    * Send a PUT request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "put",
-    value: function put(url) {
-      return this.submit('put', url);
-    }
-    /**
-    * Send a PATCH request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "patch",
-    value: function patch(url) {
-      return this.submit('patch', url);
-    }
-    /**
-    * Send a DELETE request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "delete",
-    value: function _delete(url) {
-      return this.submit('delete', url);
-    }
-    /**
-    * Submit the form.
-    *
-    * @param {string} requestType
-    * @param {string} url
-    */
-
-  }, {
-    key: "submit",
-    value: function submit(requestType, url) {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
-          _this.onSuccess(response.data);
-
-          resolve(response.data);
-        })["catch"](function (error) {
-          _this.onFail(error.response.data.errors);
-
-          reject(error.response.data);
-        });
-      });
-    }
-    /**
-    * Handle a successful form submission.
-    *
-    * @param {object} data
-    */
-
-  }, {
-    key: "onSuccess",
-    value: function onSuccess(data) {
-      alert(data.message); // temporary
-
-      this.reset();
-    }
-    /**
-    * Handle a failed form submission.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "onFail",
-    value: function onFail(errors) {
-      this.errors.record(errors);
-    }
-  }]);
-
-  return Form;
-}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      form: new Form({
+      form: new _form__WEBPACK_IMPORTED_MODULE_1__.default({
         order_number: ''
       }),
       orders: []
@@ -2566,10 +2120,10 @@ var Form = /*#__PURE__*/function () {
     },
     // Read Orders
     loadOrders: function loadOrders() {
-      var _this2 = this;
+      var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/all-orders').then(function (response) {
-        return _this2.orders = response.data;
+        return _this.orders = response.data;
       });
     },
     // Delete Orders
@@ -2597,12 +2151,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form */ "./resources/js/form.js");
 //
 //
 //
@@ -2661,229 +2210,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var Errors = /*#__PURE__*/function () {
-  /**
-  * Create a new Errors instance.
-  */
-  function Errors() {
-    _classCallCheck(this, Errors);
-
-    this.errors = {};
-  }
-  /**
-  * Determine if any errors exists for the given  input field.
-  *
-  * @param {string} field
-  */
-
-
-  _createClass(Errors, [{
-    key: "has",
-    value: function has(field) {
-      return this.errors.hasOwnProperty(field);
-    }
-    /**
-    * Determine if we have any form errors.
-    */
-
-  }, {
-    key: "any",
-    value: function any() {
-      return Object.keys(this.errors).length > 0;
-    }
-    /**
-    * Retrieve the error message for a particular input field.
-    *
-    * @param {string} field
-    */
-
-  }, {
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
-    }
-    /**
-    * Record the new errors.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "record",
-    value: function record(errors) {
-      this.errors = errors;
-    }
-    /**
-    * Clear one or all error fields.
-    *
-    * @param {string|null} field
-    */
-
-  }, {
-    key: "clear",
-    value: function clear(field) {
-      if (field) {
-        delete this.errors[field];
-        return;
-      }
-
-      this.errors = {};
-    }
-  }]);
-
-  return Errors;
-}();
-
-var Form = /*#__PURE__*/function () {
-  /**
-  * Create a new Form instance.
-  *
-  * @param {object} data
-  */
-  function Form(data) {
-    _classCallCheck(this, Form);
-
-    this.originalData = data;
-
-    for (var field in data) {
-      this[field] = data[field];
-    }
-
-    this.errors = new Errors();
-  }
-  /**
-  * Fetch all relevant data for the form.
-  */
-
-
-  _createClass(Form, [{
-    key: "data",
-    value: function data() {
-      var data = {};
-
-      for (var property in this.originalData) {
-        data[property] = this[property];
-      }
-
-      return data;
-    }
-    /**
-    * Reset the form fields.
-    */
-
-  }, {
-    key: "reset",
-    value: function reset() {
-      for (var field in this.originalData) {
-        this[field] = '';
-      }
-
-      this.errors.clear();
-    }
-    /**
-    * Send a POST request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "post",
-    value: function post(url) {
-      return this.submit('post', url);
-    }
-    /**
-    * Send a PUT request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "put",
-    value: function put(url) {
-      return this.submit('put', url);
-    }
-    /**
-    * Send a PATCH request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "patch",
-    value: function patch(url) {
-      return this.submit('patch', url);
-    }
-    /**
-    * Send a DELETE request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "delete",
-    value: function _delete(url) {
-      return this.submit('delete', url);
-    }
-    /**
-    * Submit the form.
-    *
-    * @param {string} requestType
-    * @param {string} url
-    */
-
-  }, {
-    key: "submit",
-    value: function submit(requestType, url) {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
-          _this.onSuccess(response.data);
-
-          resolve(response.data);
-        })["catch"](function (error) {
-          _this.onFail(error.response.data.errors);
-
-          reject(error.response.data);
-        });
-      });
-    }
-    /**
-    * Handle a successful form submission.
-    *
-    * @param {object} data
-    */
-
-  }, {
-    key: "onSuccess",
-    value: function onSuccess(data) {
-      alert(data.message); // temporary
-
-      this.reset();
-    }
-    /**
-    * Handle a failed form submission.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "onFail",
-    value: function onFail(errors) {
-      this.errors.record(errors);
-    }
-  }]);
-
-  return Form;
-}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      form: new Form({
+      form: new _form__WEBPACK_IMPORTED_MODULE_1__.default({
         name: '',
         description: '',
         quantity: ''
@@ -2904,10 +2235,10 @@ var Form = /*#__PURE__*/function () {
     },
     // Read Products
     loadProducts: function loadProducts() {
-      var _this2 = this;
+      var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/products').then(function (response) {
-        return _this2.all_products = response.data;
+        return _this.all_products = response.data;
       });
     },
     // Delete Products
@@ -2935,12 +2266,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form */ "./resources/js/form.js");
 //
 //
 //
@@ -3000,229 +2326,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var Errors = /*#__PURE__*/function () {
-  /**
-  * Create a new Errors instance.
-  */
-  function Errors() {
-    _classCallCheck(this, Errors);
-
-    this.errors = {};
-  }
-  /**
-  * Determine if any errors exists for the given  input field.
-  *
-  * @param {string} field
-  */
-
-
-  _createClass(Errors, [{
-    key: "has",
-    value: function has(field) {
-      return this.errors.hasOwnProperty(field);
-    }
-    /**
-    * Determine if we have any form errors.
-    */
-
-  }, {
-    key: "any",
-    value: function any() {
-      return Object.keys(this.errors).length > 0;
-    }
-    /**
-    * Retrieve the error message for a particular input field.
-    *
-    * @param {string} field
-    */
-
-  }, {
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
-    }
-    /**
-    * Record the new errors.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "record",
-    value: function record(errors) {
-      this.errors = errors;
-    }
-    /**
-    * Clear one or all error fields.
-    *
-    * @param {string|null} field
-    */
-
-  }, {
-    key: "clear",
-    value: function clear(field) {
-      if (field) {
-        delete this.errors[field];
-        return;
-      }
-
-      this.errors = {};
-    }
-  }]);
-
-  return Errors;
-}();
-
-var Form = /*#__PURE__*/function () {
-  /**
-  * Create a new Form instance.
-  *
-  * @param {object} data
-  */
-  function Form(data) {
-    _classCallCheck(this, Form);
-
-    this.originalData = data;
-
-    for (var field in data) {
-      this[field] = data[field];
-    }
-
-    this.errors = new Errors();
-  }
-  /**
-  * Fetch all relevant data for the form.
-  */
-
-
-  _createClass(Form, [{
-    key: "data",
-    value: function data() {
-      var data = {};
-
-      for (var property in this.originalData) {
-        data[property] = this[property];
-      }
-
-      return data;
-    }
-    /**
-    * Reset the form fields.
-    */
-
-  }, {
-    key: "reset",
-    value: function reset() {
-      for (var field in this.originalData) {
-        this[field] = '';
-      }
-
-      this.errors.clear();
-    }
-    /**
-    * Send a POST request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "post",
-    value: function post(url) {
-      return this.submit('post', url);
-    }
-    /**
-    * Send a PUT request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "put",
-    value: function put(url) {
-      return this.submit('put', url);
-    }
-    /**
-    * Send a PATCH request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "patch",
-    value: function patch(url) {
-      return this.submit('patch', url);
-    }
-    /**
-    * Send a DELETE request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "delete",
-    value: function _delete(url) {
-      return this.submit('delete', url);
-    }
-    /**
-    * Submit the form.
-    *
-    * @param {string} requestType
-    * @param {string} url
-    */
-
-  }, {
-    key: "submit",
-    value: function submit(requestType, url) {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
-          _this.onSuccess(response.data);
-
-          resolve(response.data);
-        })["catch"](function (error) {
-          _this.onFail(error.response.data.errors);
-
-          reject(error.response.data);
-        });
-      });
-    }
-    /**
-    * Handle a successful form submission.
-    *
-    * @param {object} data
-    */
-
-  }, {
-    key: "onSuccess",
-    value: function onSuccess(data) {
-      alert(data.message); // temporary
-
-      this.reset();
-    }
-    /**
-    * Handle a failed form submission.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "onFail",
-    value: function onFail(errors) {
-      this.errors.record(errors);
-    }
-  }]);
-
-  return Form;
-}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      form: new Form({
+      form: new _form__WEBPACK_IMPORTED_MODULE_1__.default({
         'supply_id': '',
         'product_id': ''
       }),
@@ -3232,14 +2340,14 @@ var Form = /*#__PURE__*/function () {
     };
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this = this;
 
     this.loadSupplierProducts();
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/suppliers').then(function (response) {
-      return _this2.suppliers = response.data;
+      return _this.suppliers = response.data;
     });
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/products').then(function (response) {
-      return _this2.products = response.data;
+      return _this.products = response.data;
     });
   },
   methods: {
@@ -3251,10 +2359,10 @@ var Form = /*#__PURE__*/function () {
     },
     // Read Suppliers
     loadSupplierProducts: function loadSupplierProducts() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/supplier-products').then(function (response) {
-        return _this3.supplier_products = response.data;
+        return _this2.supplier_products = response.data;
       });
     },
     // Delete Suppliers
@@ -3282,12 +2390,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form */ "./resources/js/form.js");
 //
 //
 //
@@ -3333,229 +2436,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var Errors = /*#__PURE__*/function () {
-  /**
-  * Create a new Errors instance.
-  */
-  function Errors() {
-    _classCallCheck(this, Errors);
-
-    this.errors = {};
-  }
-  /**
-  * Determine if any errors exists for the given  input field.
-  *
-  * @param {string} field
-  */
-
-
-  _createClass(Errors, [{
-    key: "has",
-    value: function has(field) {
-      return this.errors.hasOwnProperty(field);
-    }
-    /**
-    * Determine if we have any form errors.
-    */
-
-  }, {
-    key: "any",
-    value: function any() {
-      return Object.keys(this.errors).length > 0;
-    }
-    /**
-    * Retrieve the error message for a particular input field.
-    *
-    * @param {string} field
-    */
-
-  }, {
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
-    }
-    /**
-    * Record the new errors.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "record",
-    value: function record(errors) {
-      this.errors = errors;
-    }
-    /**
-    * Clear one or all error fields.
-    *
-    * @param {string|null} field
-    */
-
-  }, {
-    key: "clear",
-    value: function clear(field) {
-      if (field) {
-        delete this.errors[field];
-        return;
-      }
-
-      this.errors = {};
-    }
-  }]);
-
-  return Errors;
-}();
-
-var Form = /*#__PURE__*/function () {
-  /**
-  * Create a new Form instance.
-  *
-  * @param {object} data
-  */
-  function Form(data) {
-    _classCallCheck(this, Form);
-
-    this.originalData = data;
-
-    for (var field in data) {
-      this[field] = data[field];
-    }
-
-    this.errors = new Errors();
-  }
-  /**
-  * Fetch all relevant data for the form.
-  */
-
-
-  _createClass(Form, [{
-    key: "data",
-    value: function data() {
-      var data = {};
-
-      for (var property in this.originalData) {
-        data[property] = this[property];
-      }
-
-      return data;
-    }
-    /**
-    * Reset the form fields.
-    */
-
-  }, {
-    key: "reset",
-    value: function reset() {
-      for (var field in this.originalData) {
-        this[field] = '';
-      }
-
-      this.errors.clear();
-    }
-    /**
-    * Send a POST request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "post",
-    value: function post(url) {
-      return this.submit('post', url);
-    }
-    /**
-    * Send a PUT request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "put",
-    value: function put(url) {
-      return this.submit('put', url);
-    }
-    /**
-    * Send a PATCH request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "patch",
-    value: function patch(url) {
-      return this.submit('patch', url);
-    }
-    /**
-    * Send a DELETE request to the given URL.
-    * .
-    * @param {string} url
-    */
-
-  }, {
-    key: "delete",
-    value: function _delete(url) {
-      return this.submit('delete', url);
-    }
-    /**
-    * Submit the form.
-    *
-    * @param {string} requestType
-    * @param {string} url
-    */
-
-  }, {
-    key: "submit",
-    value: function submit(requestType, url) {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
-          _this.onSuccess(response.data);
-
-          resolve(response.data);
-        })["catch"](function (error) {
-          _this.onFail(error.response.data.errors);
-
-          reject(error.response.data);
-        });
-      });
-    }
-    /**
-    * Handle a successful form submission.
-    *
-    * @param {object} data
-    */
-
-  }, {
-    key: "onSuccess",
-    value: function onSuccess(data) {
-      alert(data.message); // temporary
-
-      this.reset();
-    }
-    /**
-    * Handle a failed form submission.
-    *
-    * @param {object} errors
-    */
-
-  }, {
-    key: "onFail",
-    value: function onFail(errors) {
-      this.errors.record(errors);
-    }
-  }]);
-
-  return Form;
-}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      form: new Form({
+      form: new _form__WEBPACK_IMPORTED_MODULE_1__.default({
         name: ''
       }),
       suppliers: []
@@ -3574,10 +2459,10 @@ var Form = /*#__PURE__*/function () {
     },
     // Read Suppliers
     loadSuppliers: function loadSuppliers() {
-      var _this2 = this;
+      var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/suppliers').then(function (response) {
-        return _this2.suppliers = response.data;
+        return _this.suppliers = response.data;
       });
     },
     // Delete Suppliers
@@ -3615,6 +2500,249 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2__.default({
   el: '#app',
   router: new vue_router__WEBPACK_IMPORTED_MODULE_3__.default(_routes__WEBPACK_IMPORTED_MODULE_0__.default)
 });
+
+/***/ }),
+
+/***/ "./resources/js/form.js":
+/*!******************************!*\
+  !*** ./resources/js/form.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Form)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Errors = /*#__PURE__*/function () {
+  /**
+  * Create a new Errors instance.
+  */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+  /**
+  * Determine if any errors exists for the given  input field.
+  *
+  * @param {string} field
+  */
+
+
+  _createClass(Errors, [{
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+    /**
+    * Determine if we have any form errors.
+    */
+
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+    /**
+    * Retrieve the error message for a particular input field.
+    *
+    * @param {string} field
+    */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+    /**
+    * Record the new errors.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+    /**
+    * Clear one or all error fields.
+    *
+    * @param {string|null} field
+    */
+
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+var Form = /*#__PURE__*/function () {
+  /**
+  * Create a new Form instance.
+  *
+  * @param {object} data
+  */
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originalData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new Errors();
+  }
+  /**
+  * Fetch all relevant data for the form.
+  */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var property in this.originalData) {
+        data[property] = this[property];
+      }
+
+      return data;
+    }
+    /**
+    * Reset the form fields.
+    */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originalData) {
+        this[field] = '';
+      }
+
+      this.errors.clear();
+    }
+    /**
+    * Send a POST request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+    /**
+    * Send a PUT request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+    /**
+    * Send a PATCH request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "patch",
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+    /**
+    * Send a DELETE request to the given URL.
+    * .
+    * @param {string} url
+    */
+
+  }, {
+    key: "delete",
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+    /**
+    * Submit the form.
+    *
+    * @param {string} requestType
+    * @param {string} url
+    */
+
+  }, {
+    key: "submit",
+    value: function submit(requestType, url) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        (axios__WEBPACK_IMPORTED_MODULE_0___default())[requestType](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data.errors);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+    * Handle a successful form submission.
+    *
+    * @param {object} data
+    */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      alert(data.message); // temporary
+
+      this.reset();
+    }
+    /**
+    * Handle a failed form submission.
+    *
+    * @param {object} errors
+    */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.record(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
+
 
 /***/ }),
 
@@ -4419,7 +3547,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-3\t shadow-sm p-3 m-3" }, [
+              _c("div", { staticClass: "col-md-3 shadow-sm p-3 m-3" }, [
                 _c(
                   "h5",
                   [
@@ -5205,22 +4333,9 @@ var render = function() {
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card" }, [
-          _c(
-            "div",
-            { staticClass: "card-header" },
-            [
-              _vm._v("Supplier Products "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "float-right",
-                  attrs: { to: { name: "suppliers" } }
-                },
-                [_vm._v("Supliers")]
-              )
-            ],
-            1
-          ),
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("Supplier Products ")
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("table", { staticClass: "table" }, [

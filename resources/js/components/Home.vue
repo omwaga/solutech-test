@@ -7,7 +7,7 @@
                     <div class="card-body">
                     	<div class="row">
 
-                    		<div class="col-md-3	 shadow-sm p-3 m-3">
+                    		<div class="col-md-3 shadow-sm p-3 m-3">
                     			<h5><router-link :to="{name: 'suppliers'}">Suppliers</router-link></h5>
                     		</div>
 
