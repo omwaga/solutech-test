@@ -83,19 +83,20 @@ export default {
   },
 
   methods: {
+    // Add a Supplier Product
     onSubmit() {
       this.form.post('/api/supplier-products')
       .then(response => alert('Added Successfuly'));
       this.loadSupplierProducts();
     },
 
-        // Read Suppliers
+        // Read Supplier Products
         loadSupplierProducts() {
           axios.get('/api/supplier-products')
           .then(response => this.supplier_products = response.data);
         },
 
-        // Delete Suppliers
+        // Delete Supplier Products
         deleteSupplierProduct(id){
           axios.delete('/api/supplier-products/' + id)
           .then(response => alert('Deleted Successfuly'));

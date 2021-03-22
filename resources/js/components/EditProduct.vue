@@ -3,10 +3,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">40 Not Found</div>
+                    <div class="card-header">Update</div>
 
                     <div class="card-body">
-                        Sorry you have ventured into the 404 space!
+                        I'm an example component.
                     </div>
                 </div>
             </div>

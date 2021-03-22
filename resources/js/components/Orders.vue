@@ -58,7 +58,7 @@ export default {
     },
 
     methods: {
-        // Add a supplier
+        // Add an Order
         onSubmit() {
             this.form.post('/api/all-orders')
             .then(response => alert('Added Successfuly'));

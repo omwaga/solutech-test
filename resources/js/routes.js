@@ -5,6 +5,7 @@ import Suppliers from './components/Suppliers';
 import Products from './components/Products';
 import OrderDetails from './components/OrderDetails';
 import Orders from './components/Orders';
+import EditProduct from './components/EditProduct';
 
 export default {
     mode: 'history',
@@ -39,6 +40,12 @@ export default {
             path: '/products',
             component: Products,
             name: 'products'
+        },
+
+        {
+            path: '/edit-product',
+            component: EditProduct,
+            name: 'edit.product'
         },
 
         {

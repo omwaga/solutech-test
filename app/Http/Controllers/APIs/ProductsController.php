@@ -56,7 +56,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+      return response(Products::findOrFail($id)->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**

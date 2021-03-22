@@ -19,7 +19,6 @@
                           <th scope="row">#</th>
                           <td v-text="supplier.name"></td>
                           <td>
-                            <button class="btn btn-primary btn-sm" @click="">Update</button>
                             <button class="btn btn-danger btn-sm" @click="deleteSupplier(supplier.id)">Delete</button>
                         </td>
                       </tr>

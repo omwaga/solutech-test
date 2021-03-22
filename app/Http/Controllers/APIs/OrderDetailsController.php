@@ -44,7 +44,7 @@ class OrderDetailsController extends Controller
 
         $order_detail = OrderDetails::create($attributes);
 
-        return response($order_detail->jsonSerialize(), Response::HTTP_CREATED);
+        return response($order_detail->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
