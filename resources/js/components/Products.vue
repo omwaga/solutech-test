@@ -91,7 +91,7 @@ export default {
 
         // Delete Products
         deleteProduct(id){
-            axios.delete('/api/products/' + id)
+            this.form.delete('/api/products/' + id)
             .then(response => alert('Deleted Successfuly'));
 
             this.loadProducts();

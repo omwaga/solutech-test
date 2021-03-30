@@ -99,7 +99,7 @@ export default {
 
         // Delete Order Detail
         deleteDetail(id){
-            axios.delete('/api/order-details/' + id)
+            this.form.delete('/api/order-details/' + id)
             .then(response => alert('Deleted Successfuly'));
 
             this.loadDetails();

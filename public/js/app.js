@@ -2065,7 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Delete Order Detail
     deleteDetail: function deleteDetail(id) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/order-details/' + id).then(function (response) {
+      this.form["delete"]('/api/order-details/' + id).then(function (response) {
         return alert('Deleted Successfuly');
       });
       this.loadDetails();
@@ -2163,7 +2163,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Delete Orders
     deleteOrder: function deleteOrder(id) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/all-orders/' + id).then(function (response) {
+      this.form["delete"]('/api/all-orders/' + id).then(function (response) {
         return alert('Deleted Successfuly');
       });
       this.loadOrders();
@@ -2278,7 +2278,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Delete Products
     deleteProduct: function deleteProduct(id) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/products/' + id).then(function (response) {
+      this.form["delete"]('/api/products/' + id).then(function (response) {
         return alert('Deleted Successfuly');
       });
       this.loadProducts();
@@ -2403,7 +2403,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Delete Supplier Products
     deleteSupplierProduct: function deleteSupplierProduct(id) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/supplier-products/' + id).then(function (response) {
+      this.form["delete"]('/api/supplier-products/' + id).then(function (response) {
         return alert('Deleted Successfuly');
       });
       this.loadSupplierProducts();
@@ -2502,7 +2502,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Delete Suppliers
     deleteSupplier: function deleteSupplier(id) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/suppliers/' + id).then(function (response) {
+      this.form["delete"]('/api/suppliers/' + id).then(function (response) {
         return alert('Deleted Successfuly');
       });
       this.loadSuppliers();
@@ -2757,8 +2757,7 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "onSuccess",
     value: function onSuccess(data) {
-      alert(data.message); // temporary
-
+      // alert(data.message); // temporary
       this.reset();
     }
     /**

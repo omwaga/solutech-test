@@ -74,7 +74,7 @@ export default {
 
         // Delete Orders
         deleteOrder(id){
-            axios.delete('/api/all-orders/' + id)
+            this.form.delete('/api/all-orders/' + id)
             .then(response => alert('Deleted Successfuly'));
 
             this.loadOrders();
